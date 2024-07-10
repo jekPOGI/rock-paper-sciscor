@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.choices {
+    margin: 20px 0;
+}
+
+.choice {
+    font-size: 50px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.choice:hover {
+    transform: scale(1.2);
+}
+
+.results {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.choice-display {
+    font-size: 60px;
+}
+
+.outcome {
+    margin-top: 20px;
+}
+
+#outcome-message {
+    font-size: 24px;
+}
+
+</style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Rock Paper Scissors</h1>
+        <div class="choices">
+            <button class="choice" data-choice="rock">✊</button>
+            <button class="choice" data-choice="paper">✋</button>
+            <button class="choice" data-choice="scissors">✌</button>
+        </div>
+        <div class="results">
+            <div class="result">
+                <h2>You picked:</h2>
+                <p id="player-choice" class="choice-display">❓</p>
+            </div>
+            <div class="result">
+                <h2>Enemy picked:</h2>
+                <p id="computer-choice" class="choice-display">❓</p>
+            </div>
+        </div>
+        <div class="outcome">
+            <h2 id="outcome-message">Make your choice!</h2>
+        </div>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const choices = document.querySelectorAll('.choice');
+    const playerChoiceDisplay = document.getElementById('player-choice');
+    const computerChoiceDisplay = document.getElementById('computer-choice');
+    const outcomeMessage = document.getElementById('outcome-message');
+
+    const choicesArray = ['rock', 'paper', 'scissors'];
+    const emojiMap = {
+        rock: '✊',
+        paper: '✋',
+        scissors: '✌'
+    };
+
+    choices.forEach(choice => {
+        choice.addEventListener('click', () => {
+            const playerChoice = choice.getAttribute('data-choice');
+            const computerChoice = getComputerChoice();
+
+            playerChoiceDisplay.textContent = emojiMap[playerChoice];
+            computerChoiceDisplay.textContent = emojiMap[computerChoice];
+
+            const outcome = determineOutcome(playerChoice, computerChoice);
+            outcomeMessage.textContent = outcome;
+        });
+    });
+
+    function getComputerChoice() {
+        const randomIndex = Math.floor(Math.random() * choicesArray.length);
+        return choicesArray[randomIndex];
+    }
+
+    function determineOutcome(playerChoice, computerChoice) {
+        if (playerChoice === computerChoice) {
+            return 'It\'s a draw!';
+        } else if (
+            (playerChoice === 'rock' && computerChoice === 'scissors') ||
+            (playerChoice === 'paper' && computerChoice === 'rock') ||
+            (playerChoice === 'scissors' && computerChoice === 'paper')
+        ) {
+            return 'You win!';
+        } else {
+            return 'You lose!';
+        }
+    }
+});
+    </script>
+</body>
+</html>
